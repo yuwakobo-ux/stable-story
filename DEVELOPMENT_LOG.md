@@ -1,0 +1,26 @@
+# Development Log
+
+- Project started.
+- Task 01 created.
+- Added project identity, documentation, and a smartphone-friendly title screen.
+- Intentionally not added: gameplay, horse creation, saves, PWA files, external assets, or future systems.
+- Task 02 completed.
+- Added: New Game, stable creation, and first horse generation.
+- Not added: Training, racing, or save.
+- Task 03 completed.
+- Added: Speed Training, Stamina Training, Power Training, Rest, week progression, fatigue and condition changes, and the high-fatigue training lock.
+- Not added: Racing, Saving, PWA, or multiple horses.
+- Next planned task: Local Save and Continue System
+- Task 04 completed.
+- Added: LocalStorage save, Manual Save, Autosave, Continue, save validation, invalid save handling, and Delete Save Data.
+- Not added: Racing, PWA, multiple horses, or cloud save.
+- Next planned task: First Race Calculation and Results
+- Task 05.5 completed.
+- Added: GitHub repository backup, initial project commit, GitHub Pages deployment, and smartphone play URL.
+- No gameplay changes.
+- Task 04.5 completed.
+- Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
+- No gameplay changes.
+- Task 05 completed.
+- Added: First race, race calculation, race animation, prize money, and race results.
+- Not added: Multiple races, multiple tracks, weather, horse aging, or breeding.

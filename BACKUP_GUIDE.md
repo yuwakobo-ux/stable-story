@@ -1,0 +1,18 @@
+# Backup Guide
+
+Recommended backup timing:
+
+- After every completed task
+- Before large feature additions
+- Before major refactoring
+- Before release versions
+
+Recommended archive names:
+
+- `StableStory_Task04.zip`
+- `StableStory_Task05.zip`
+- `StableStory_Ver0.1.zip`
+
+This project should never rely on only one workspace.
+
+GitHub is now one backup location for Stable Story, but GitHub must not be the only backup location. ZIP backups are still recommended at major checkpoints.

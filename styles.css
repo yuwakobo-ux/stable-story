@@ -1,0 +1,71 @@
+:root {
+  color: #f6f0df;
+  background: #102b27;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; margin: 0; }
+
+body { overflow-x: hidden; }
+
+.title-screen {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: max(24px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+  background: linear-gradient(160deg, #173f38 0%, #102b27 55%, #081b1a 100%);
+}
+
+.sky-glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(213, 169, 91, 0.16);
+  filter: blur(2px);
+  right: -100px;
+  top: 8%;
+}
+
+.title-card { position: relative; width: min(100%, 420px); text-align: center; }
+.setup-form { display: grid; gap: 10px; text-align: left; }
+.setup-form label { color: #d5e0d3; font-size: 14px; font-weight: 700; }
+.setup-form input { width: 100%; min-height: 54px; border: 2px solid #668476; border-radius: 12px; color: #18332c; font: inherit; font-size: 16px; padding: 12px; margin-bottom: 8px; }
+.setup-form input:focus { border-color: #e1b96c; outline: 2px solid #e1b96c; }
+.stable-summary, .abilities { display: grid; gap: 8px; margin: 20px 0; text-align: left; }
+.stable-summary p, .abilities p { display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 11px 13px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); }
+.stable-summary span, .abilities span { color: #b8d0b8; }
+.stable-summary strong, .abilities strong { color: #fff8e8; text-align: right; }
+h2 { color: #e1b96c; font-size: 20px; margin: 24px 0 10px; }
+.horse-mark { color: #e1b96c; font-size: 52px; line-height: 1; margin-bottom: 18px; }
+.eyebrow { color: #b8d0b8; font-size: 12px; letter-spacing: 0.18em; margin: 0 0 12px; }
+h1 { color: #fff8e8; font-size: clamp(42px, 12vw, 64px); letter-spacing: -0.04em; line-height: 1; margin: 0; }
+.version { color: #e1b96c; font-size: 15px; margin: 16px 0 12px; }
+.subtitle { color: #d5e0d3; font-size: 17px; line-height: 1.5; margin: 0 auto 34px; max-width: 300px; }
+.title-actions { display: grid; gap: 14px; }
+button { width: 100%; min-height: 58px; border: 0; border-radius: 14px; font: inherit; font-size: 17px; font-weight: 700; padding: 14px 18px; touch-action: manipulation; }
+button:focus-visible { outline: 3px solid #f5d58d; outline-offset: 3px; }
+.primary-button { color: #18332c; background: #e1b96c; box-shadow: 0 7px 0 #a17b3e; }
+.primary-button:active { transform: translateY(3px); box-shadow: 0 4px 0 #a17b3e; }
+.secondary-button { color: #a5b4aa; background: rgba(255, 255, 255, 0.09); }
+.quiet-button { min-height: 48px; color: #b8d0b8; background: transparent; border: 1px solid rgba(184, 208, 184, 0.35); font-size: 14px; }
+button:disabled { cursor: not-allowed; opacity: 0.72; }
+.message { min-height: 24px; color: #f5d58d; font-size: 14px; margin: 22px 0 0; }
+.message small { color: #b8d0b8; }
+.training-actions { margin-bottom: 20px; }
+.race-info { color: #d5e0d3; font-size: 14px; line-height: 1.5; }
+.race-lanes { display: grid; gap: 10px; margin: 20px 0; text-align: left; }
+.race-lane { position: relative; min-height: 36px; overflow: hidden; border-bottom: 2px solid #668476; color: #d5e0d3; font-size: 13px; padding: 5px 0; }
+.runner { position: absolute; left: 0; bottom: 5px; width: 12px; height: 12px; border-radius: 50%; background: #e1b96c; animation: race-run 1.45s ease-in forwards; animation-delay: calc(var(--lane-order) * 40ms); }
+@keyframes race-run { from { left: 0; } to { left: calc(100% - 14px); } }
+.results { display: grid; gap: 8px; padding: 0; margin: 22px 0; list-style: none; text-align: left; }
+.results li { display: grid; grid-template-columns: 45px 1fr auto; gap: 8px; padding: 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); }
+.results .player-result { color: #18332c; background: #e1b96c; }
+footer { position: absolute; bottom: max(18px, env(safe-area-inset-bottom)); color: #87a394; font-size: 13px; letter-spacing: 0.12em; }
