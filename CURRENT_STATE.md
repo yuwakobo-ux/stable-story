@@ -11,7 +11,7 @@
 - Current Save Version: 1
 - Important Development Rules: Keep tasks small, preserve playable features, use original content, and do not modify unrelated projects.
 - GitHub Backup: Established at https://github.com/yuwakobo-ux/stable-story
-- GitHub Pages Deployment: Established at https://yuwakobo-ux.github.io/stable-story/
+- GitHub Pages Deployment: Pending configuration; the expected URL currently returns 404.
 - Repository URL: https://github.com/yuwakobo-ux/stable-story
-- Pages URL: https://yuwakobo-ux.github.io/stable-story/
+- Pages URL: https://yuwakobo-ux.github.io/stable-story/ (pending)
 - Next Planned Task: Task 06 - Race History and Stable Records

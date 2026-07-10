@@ -8,7 +8,7 @@
 - Fixed local paths are not required.
 - Checkpoint A has been established.
 - Official GitHub repository: https://github.com/yuwakobo-ux/stable-story
-- Official playable GitHub Pages URL: https://yuwakobo-ux.github.io/stable-story/
+- Expected playable GitHub Pages URL after configuration: https://yuwakobo-ux.github.io/stable-story/
 
 Development rules:
 

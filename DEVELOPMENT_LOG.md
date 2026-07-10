@@ -16,7 +16,7 @@
 - Not added: Racing, PWA, multiple horses, or cloud save.
 - Next planned task: First Race Calculation and Results
 - Task 05.5 completed.
-- Added: GitHub repository backup, initial project commit, GitHub Pages deployment, and smartphone play URL.
+- Added: GitHub repository backup and initial project commit. GitHub Pages configuration remains pending.
 - No gameplay changes.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.

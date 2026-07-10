@@ -31,10 +31,10 @@ New Game, training, saving, and one beginner race are implemented. The Greenfiel
 ## GitHub backup and play URL
 
 - Repository: https://github.com/yuwakobo-ux/stable-story
-- GitHub Pages: https://yuwakobo-ux.github.io/stable-story/
-- Cache-busted play URL: added after the release commit.
+- GitHub Pages: pending configuration.
+- Cache-busted play URL: not available until Pages is enabled.
 
-On a smartphone, open the GitHub Pages URL in a browser and play in portrait orientation. Save data stays in the browser on the current device. LocalStorage is origin-specific, so local-file saves may not appear on GitHub Pages.
+After Pages is enabled, open the GitHub Pages URL on a smartphone and play in portrait orientation. Save data stays in the browser on the current device. LocalStorage is origin-specific, so local-file saves may not appear on GitHub Pages.
 
 ## Checkpoint A
 
