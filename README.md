@@ -4,7 +4,7 @@ Stable Story is an original smartphone-first horse-racing and racehorse-training
 
 ## Current status
 
-Task 05.5 - GitHub Backup and GitHub Pages Deployment
+Task 06 - Race History and Stable Records
 
 ## Files included
 
@@ -26,7 +26,7 @@ Open `index.html` in a browser. No server or installation is required for this t
 
 ## Current limitations
 
-New Game, training, saving, and one beginner race are implemented. The Greenfield Beginner Cup uses a simple calculation, race presentation, finishing order, prize money, record updates, and autosave. The LocalStorage key is `stableStorySaveV1` with save version `1`.
+New Game, training, saving, one beginner race, Stable Records, Recent Races, Win Rate, Best Finish, Average Finish, and a one-time First Victory message are implemented. Saved history is limited to 20 entries and the main screen shows the latest five. Older saveVersion 1 data receives compatible record defaults. Only one race remains available.
 
 ## GitHub backup and play URL
 

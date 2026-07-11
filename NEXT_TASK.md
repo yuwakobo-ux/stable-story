@@ -1,3 +1,3 @@
 # Next Task
 
-Task 06 - Race History and Stable Records
+Task 07 - Gameplay Balance and First Playtest Improvements

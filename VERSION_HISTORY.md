@@ -11,4 +11,8 @@
   - Save System
 - Task 04.5
   - Project Checkpoint A
-
+- Task 06
+  - Race History
+  - Stable Records
+  - First Victory Celebration
+  - Backward-Compatible Save Extension

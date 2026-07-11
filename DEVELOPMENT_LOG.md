@@ -18,6 +18,9 @@
 - Task 05.5 completed.
 - Added: GitHub repository backup and initial project commit. GitHub Pages configuration remains pending.
 - No gameplay changes.
+- Task 06 completed.
+- Added: Race history, Recent Races display, Win Rate, Best Finish, Average Finish, First Victory celebration, and backward-compatible save defaults.
+- Not added: Additional races, horse aging, injuries, breeding, multiple horses, or PWA.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.
