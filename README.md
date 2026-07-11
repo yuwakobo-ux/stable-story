@@ -4,7 +4,7 @@ Stable Story is an original smartphone-first horse-racing and racehorse-training
 
 ## Current status
 
-Task 06 - Race History and Stable Records
+Task 07 - First Playtest Improvements
 
 ## Files included
 
@@ -26,7 +26,7 @@ Open `index.html` in a browser. No server or installation is required for this t
 
 ## Current limitations
 
-New Game, training, saving, one beginner race, Stable Records, Recent Races, Win Rate, Best Finish, Average Finish, and a one-time First Victory message are implemented. Saved history is limited to 20 entries and the main screen shows the latest five. Older saveVersion 1 data receives compatible record defaults. Only one race remains available.
+Continue now refreshes race availability, Stable Records, and Recent Races correctly. Specific Race Status guidance, a compact next-race information line, and clearer training and Rest feedback are included. Save key `stableStorySaveV1` and saveVersion `1` remain compatible. The main stable screen is vertically long on smartphones; a dedicated compact one-screen or tabbed UI task is planned later.
 
 ## GitHub backup and play URL
 

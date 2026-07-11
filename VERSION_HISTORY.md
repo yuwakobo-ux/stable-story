@@ -16,3 +16,9 @@
   - Stable Records
   - First Victory Celebration
   - Backward-Compatible Save Extension
+- Task 07
+  - Continue Race Availability Fix
+  - Race Status Guidance
+  - Next Race Information
+  - First Playtest Improvements
+  - Small Smartphone Spacing Cleanup

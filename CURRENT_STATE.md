@@ -2,7 +2,7 @@
 
 - Project Name: Stable Story
 - Current Version: Pre-Ver.0.1
-- Current Task: Task 06 - Race History and Stable Records
+- Current Task: Task 07 - First Playtest Improvements
 - Completed Tasks: Task 01, Task 02, Task 03, Task 04, Task 04.5, Task 05, Task 05.5
 - Working Features: Title screen, New Game, first horse creation, training, week progression, LocalStorage save, autosave, Continue, validation, Delete Save Data, beginner race, race calculation, race animation, prize money, race results, Race History, Stable Records, and First Victory celebration
 - Not Yet Implemented: Multiple races, multiple tracks, weather, horse aging, breeding, PWA support, cloud saving, and multiple horses
@@ -12,6 +12,9 @@
 - Race history is implemented.
 - Stable Records are implemented.
 - First Victory celebration is implemented.
+- Continue now restores correct race availability.
+- Race Status guidance is implemented.
+- The main stable screen vertical length remains a known future UI issue.
 - GitHub Pages remains the intended playable deployment.
 - Important Development Rules: Keep tasks small, preserve playable features, use original content, and do not modify unrelated projects.
 - GitHub Backup: Established at https://github.com/yuwakobo-ux/stable-story

@@ -39,11 +39,11 @@ body { overflow-x: hidden; }
 .setup-form label { color: #d5e0d3; font-size: 14px; font-weight: 700; }
 .setup-form input { width: 100%; min-height: 54px; border: 2px solid #668476; border-radius: 12px; color: #18332c; font: inherit; font-size: 16px; padding: 12px; margin-bottom: 8px; }
 .setup-form input:focus { border-color: #e1b96c; outline: 2px solid #e1b96c; }
-.stable-summary, .abilities { display: grid; gap: 8px; margin: 20px 0; text-align: left; }
-.stable-summary p, .abilities p { display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 11px 13px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); }
+.stable-summary, .abilities { display: grid; gap: 6px; margin: 16px 0; text-align: left; }
+.stable-summary p, .abilities p { display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 9px 13px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); }
 .stable-summary span, .abilities span { color: #b8d0b8; }
 .stable-summary strong, .abilities strong { color: #fff8e8; text-align: right; }
-h2 { color: #e1b96c; font-size: 20px; margin: 24px 0 10px; }
+h2 { color: #e1b96c; font-size: 20px; margin: 18px 0 8px; }
 .horse-mark { color: #e1b96c; font-size: 52px; line-height: 1; margin-bottom: 18px; }
 .eyebrow { color: #b8d0b8; font-size: 12px; letter-spacing: 0.18em; margin: 0 0 12px; }
 h1 { color: #fff8e8; font-size: clamp(42px, 12vw, 64px); letter-spacing: -0.04em; line-height: 1; margin: 0; }

@@ -21,6 +21,10 @@
 - Task 06 completed.
 - Added: Race history, Recent Races display, Win Rate, Best Finish, Average Finish, First Victory celebration, and backward-compatible save defaults.
 - Not added: Additional races, horse aging, injuries, breeding, multiple horses, or PWA.
+- Task 07 completed.
+- Fixed: Race availability after Continue, Race-button state refresh, and specific race-unavailable guidance.
+- Improved: Next race information, Training and Rest feedback, and small vertical-spacing cleanup.
+- Deferred: Full one-screen smartphone redesign, tabs or collapsible sections, new races, and numerical balance changes.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.
