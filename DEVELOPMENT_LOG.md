@@ -31,6 +31,9 @@
 - Task 09 completed.
 - Added: Training, Records, and Horse panel switching for compact smartphone use.
 - Preserved: Existing race selection, save behavior, and race calculations.
+- Task 10 completed.
+- Added: Condition and Fatigue labels, race recommendations, first-game guidance, and Checkpoint B.
+- Preserved: Existing numerical balance and save compatibility.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.

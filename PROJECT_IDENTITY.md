@@ -1,7 +1,7 @@
 # Stable Story
 
-- Current task: Task 04.5
-- Current version: Pre-Ver.0.1
+- Current task: Task 10 - Ver.0.1 Playable Build and Checkpoint B
+- Current version: Ver.0.1 Playable Build
 - Purpose: An original smartphone horse-racing training game.
 - Long-term goal: Build toward Derby Stallion-class depth around Ver.10.
 - Official workspace: The current writable workspace.
@@ -9,6 +9,7 @@
 - Checkpoint A has been established.
 - Official GitHub repository: https://github.com/yuwakobo-ux/stable-story
 - Expected playable GitHub Pages URL after configuration: https://yuwakobo-ux.github.io/stable-story/
+- Checkpoint B has been established.
 
 Development rules:
 

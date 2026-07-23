@@ -16,3 +16,5 @@ Recommended archive names:
 This project should never rely on only one workspace.
 
 GitHub is now one backup location for Stable Story, but GitHub must not be the only backup location. ZIP backups are still recommended at major checkpoints.
+
+Checkpoint B is the Ver.0.1 Playable Build milestone.

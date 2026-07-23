@@ -28,3 +28,6 @@
 - Task 09
   - Compact Smartphone Interface
   - Training, Records, and Horse Panels
+- Task 10
+  - Ver.0.1 Playable Build
+  - Checkpoint B

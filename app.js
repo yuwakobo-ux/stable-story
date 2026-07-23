@@ -8,6 +8,9 @@ let selectedRace = null;
 
 function randomValue(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+function conditionLabel(value) { return value >= 85 ? "Excellent" : value >= 70 ? "Good" : value >= 50 ? "Normal" : value >= 30 ? "Poor" : "Bad"; }
+function fatigueLabel(value) { return value <= 29 ? "Fresh" : value <= 59 ? "Tired" : value <= 89 ? "Very Tired" : "Exhausted"; }
+function raceRecommendation(game, race) { const score = game.speed + game.stamina * race.staminaWeight + game.power * race.powerWeight + game.spirit * race.spiritWeight + game.condition - game.fatigue * race.fatigueWeight; return score >= 300 ? "Strong Chance" : score >= 220 ? "Competitive" : "Difficult"; }
 function numberIsSafe(value) { return typeof value === "number" && Number.isFinite(value) && Number.isSafeInteger(value); }
 
 function readSave() {
@@ -75,6 +78,15 @@ function createHorse(event) {
   currentGame = { stableName: String(form.get("stableName")).trim() || "Green Field Stable", horseName: String(form.get("horseName")).trim() || "First Star", age: 2, week: 1, trainingCount: 0, money: 100000, wins: 0, races: 0, prizeMoney: 0, speed: randomValue(35, 50), stamina: randomValue(35, 50), power: randomValue(30, 45), spirit: randomValue(30, 45), condition: randomValue(65, 85), fatigue: 0, latestMessage: "Your horse is ready.", raceHistory: [], bestFinish: null, totalFinishPositions: 0, firstVictoryCelebrated: false, saveStatus: "" };
   saveGame("Autosaved.");
   showStable(currentGame.latestMessage);
+  showIntro();
+}
+
+function showIntro() {
+  const modal = document.createElement("div");
+  modal.className = "intro-card";
+  modal.innerHTML = "<h2>Stable Story Guide</h2><p>Use training to improve abilities.</p><p>Let your horse rest when fatigue is high.</p><p>The first race opens at Week 4.</p><p>Your game saves automatically.</p><button class=\"primary-button\" type=\"button\">Close</button>";
+  app.appendChild(modal);
+  modal.querySelector("button").addEventListener("click", function () { modal.remove(); });
 }
 
 function getRaceState(game) {
@@ -85,6 +97,7 @@ function getRaceState(game) {
 }
 
 function setupStableTabs() {
+  document.querySelectorAll(".abilities p").forEach(function (row) { const label = row.querySelector("span"); const value = row.querySelector("strong"); if (label && value && label.textContent === "Condition") value.textContent = `${currentGame.condition} (${conditionLabel(currentGame.condition)})`; if (label && value && label.textContent === "Fatigue") value.textContent = `${currentGame.fatigue} (${fatigueLabel(currentGame.fatigue)})`; });
   const nav = document.createElement("nav");
   nav.className = "stable-tabs";
   nav.innerHTML = "<button data-panel=\"training\" type=\"button\">Training</button><button data-panel=\"records\" type=\"button\">Records</button><button data-panel=\"horse\" type=\"button\">Horse</button>";
@@ -114,6 +127,8 @@ function showStable(resultMessage) {
   const recentRaces = g.raceHistory.slice(-5).reverse();
   const historyHtml = recentRaces.length === 0 ? "<p class=\"empty-note\">No races completed yet.</p>" : recentRaces.map(function (race) { return `<div class="history-card"><strong>Week ${race.week}</strong><span>${escapeHtml(race.raceName)}</span><span>${ordinal(race.finishPosition)} Place</span><span>Prize: ${race.prize}</span></div>`; }).join("");
   const raceState = getRaceState(g);
+  const conditionText = `${g.condition} (${conditionLabel(g.condition)})`;
+  const fatigueText = `${g.fatigue} (${fatigueLabel(g.fatigue)})`;
   app.innerHTML = `<p class="eyebrow">YOUR STABLE</p><h1 id="game-title">Stable Story</h1><div class="stable-summary"><p><span>Stable</span><strong>${escapeHtml(g.stableName)}</strong></p><p><span>Horse</span><strong>${escapeHtml(g.horseName)}</strong></p><p><span>Age</span><strong>${g.age} years old</strong></p><p><span>Current Week</span><strong>${g.week}</strong></p><p><span>Money</span><strong>${g.money}</strong></p><p><span>Record</span><strong>${g.wins} Wins / ${g.races} Races</strong></p><p><span>Total Prize Money</span><strong>${g.prizeMoney}</strong></p></div><h2>Stable Records</h2><div class="abilities"><p><span>Races</span><strong>${g.races}</strong></p><p><span>Wins</span><strong>${g.wins}</strong></p><p><span>Win Rate</span><strong>${winRate}</strong></p><p><span>Total Prize Money</span><strong>${g.prizeMoney}</strong></p><p><span>Best Finish</span><strong>${g.bestFinish === null ? "-" : ordinal(g.bestFinish)}</strong></p><p><span>Average Finish</span><strong>${averageFinish}</strong></p></div><h2>Horse Abilities</h2><div class="abilities"><p><span>Speed</span><strong>${g.speed}</strong></p><p><span>Stamina</span><strong>${g.stamina}</strong></p><p><span>Power</span><strong>${g.power}</strong></p><p><span>Spirit</span><strong>${g.spirit}</strong></p><p><span>Condition</span><strong>${g.condition}</strong></p><p><span>Fatigue</span><strong>${g.fatigue}</strong></p></div><h2>Recent Races</h2><div class="race-history">${historyHtml}</div><h2>Training</h2><div class="title-actions training-actions"><button data-action="speed" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Speed Training</button><button data-action="stamina" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Stamina Training</button><button data-action="power" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Power Training</button><button data-action="rest" class="secondary-button" type="button">Rest</button></div><p class="message">${escapeHtml(resultMessage || g.latestMessage)}${g.saveStatus ? ` <small>${escapeHtml(g.saveStatus)}</small>` : ""}${trainingLocked ? " Your horse is too tired to train. Let the horse rest." : ""}</p><h2>Race</h2><p class="race-info">Greenfield Beginner Cup | Turf 1600m | Entry 5000</p><button id="race-button" class="primary-button" type="button" ${raceState.ready ? "" : "disabled"}>${raceState.label}</button><p class="message race-status">${escapeHtml(raceState.message)}</p><div class="title-actions"><button id="manual-save" class="secondary-button" type="button">Save</button><button id="stable-back" class="primary-button" type="button">Back to Title</button></div>`;
   setupStableTabs();
   document.querySelectorAll("[data-action]").forEach(function (button) { button.addEventListener("click", function () { performAction(button.dataset.action); }); });
@@ -130,7 +145,7 @@ function raceAvailability(race, game) {
 }
 
 function showRaceSelection() {
-  app.innerHTML = `<p class="eyebrow">RACE SELECT</p><h1 id="game-title">Choose a Race</h1><div class="race-options">${races.map(function (race, index) { const state = raceAvailability(race, currentGame); return `<div class="race-option"><h2>${race.name}</h2><p>${race.surface} | ${race.distance}m | Week ${race.week}+ | Entry ${race.fee}</p><p>1st Prize: ${race.prizes[0]}</p><p class="${state.ready ? "race-ready" : "race-blocked"}">${state.reason}</p><button data-race-index="${index}" class="${state.ready ? "primary-button" : "secondary-button"}" type="button" ${state.ready ? "" : "disabled"}>Enter</button></div>`; }).join("")}</div><button id="race-selection-back" class="secondary-button" type="button">Back to Stable</button>`;
+  app.innerHTML = `<p class="eyebrow">RACE SELECT</p><h1 id="game-title">Choose a Race</h1><div class="race-options">${races.map(function (race, index) { const state = raceAvailability(race, currentGame); return `<div class="race-option"><h2>${race.name}</h2><p>${race.surface} | ${race.distance}m | Week ${race.week}+ | Entry ${race.fee}</p><p>1st Prize: ${race.prizes[0]}</p><p>Recommendation: ${raceRecommendation(currentGame, race)}</p><p class="${state.ready ? "race-ready" : "race-blocked"}">${state.reason}</p><button data-race-index="${index}" class="${state.ready ? "primary-button" : "secondary-button"}" type="button" ${state.ready ? "" : "disabled"}>Enter</button></div>`; }).join("")}</div><button id="race-selection-back" class="secondary-button" type="button">Back to Stable</button>`;
   document.querySelectorAll("[data-race-index]").forEach(function (button) { button.addEventListener("click", function () { selectedRace = races[Number(button.dataset.raceIndex)]; startRace(); }); });
   document.getElementById("race-selection-back").addEventListener("click", function () { showStable(currentGame.latestMessage); });
 }

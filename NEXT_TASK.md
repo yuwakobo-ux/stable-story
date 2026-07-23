@@ -1,3 +1,3 @@
 # Next Task
 
-Task 10 - Ver.0.1 Balance and Checkpoint B
+Task 11 - Ver.0.2 Planning and Horse Growth System
