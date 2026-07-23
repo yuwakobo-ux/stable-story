@@ -28,6 +28,9 @@
 - Task 08 completed.
 - Added: Riverside Sprint, Highland Challenge, and simple race selection.
 - Preserved: Existing saves, race history, race formula structure, and Greenfield Beginner Cup.
+- Task 09 completed.
+- Added: Training, Records, and Horse panel switching for compact smartphone use.
+- Preserved: Existing race selection, save behavior, and race calculations.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.

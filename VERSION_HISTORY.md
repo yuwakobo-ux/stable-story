@@ -25,3 +25,6 @@
 - Task 08
   - Additional Races
   - Simple Race Selection
+- Task 09
+  - Compact Smartphone Interface
+  - Training, Records, and Horse Panels

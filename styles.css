@@ -72,6 +72,9 @@ button:disabled { cursor: not-allowed; opacity: 0.72; }
 .history-card { display: grid; gap: 3px; padding: 11px 13px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); color: #d5e0d3; font-size: 14px; }
 .history-card strong { color: #e1b96c; }
 .empty-note { color: #b8d0b8; font-size: 14px; margin: 0; }
+.stable-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+.stable-tabs button { min-height: 48px; padding: 10px 6px; color: #b8d0b8; background: rgba(255, 255, 255, 0.09); font-size: 15px; }
+.stable-tabs button.active-tab { color: #18332c; background: #e1b96c; }
 .race-options { display: grid; gap: 12px; margin: 16px 0; text-align: left; }
 .race-option { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.09); }
 .race-option h2 { margin: 0 0 6px; font-size: 18px; }

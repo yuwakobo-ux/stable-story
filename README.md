@@ -4,7 +4,7 @@ Stable Story is an original smartphone-first horse-racing and racehorse-training
 
 ## Current status
 
-Task 08 - Additional Races and Simple Race Selection
+Task 09 - Compact Smartphone Interface
 
 ## Files included
 
@@ -26,7 +26,7 @@ Open `index.html` in a browser. No server or installation is required for this t
 
 ## Current limitations
 
-Three original races are available: Greenfield Beginner Cup, Riverside Sprint, and Highland Challenge. A simple race-selection screen shows unlock week, entry fee, prize, and availability. Save key `stableStorySaveV1` and saveVersion `1` remain compatible.
+Three original races are available with simple selection. The stable screen now has Training, Records, and Horse panels for a more compact smartphone experience. Save compatibility remains unchanged.
 
 ## GitHub backup and play URL
 

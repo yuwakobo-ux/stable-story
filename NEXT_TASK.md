@@ -1,3 +1,3 @@
 # Next Task
 
-Task 09 - Compact Smartphone Interface
+Task 10 - Ver.0.1 Balance and Checkpoint B
