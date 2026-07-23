@@ -2,9 +2,9 @@
 
 - Project Name: Stable Story
 - Current Version: Pre-Ver.0.1
-- Current Task: Task 11 - Ver.0.2 Foundation and Horse Development System
+- Current Task: Task 12 - Training Variety and Horse Traits
 - Completed Tasks: Task 01, Task 02, Task 03, Task 04, Task 04.5, Task 05, Task 05.5
-- Working Features: Title screen, New Game, first horse creation, training, week progression, LocalStorage save, autosave, Continue, validation, Delete Save Data, three races, race selection, race calculation, race animation, prize money, race results, Race History, Stable Records, and First Victory celebration
+- Working Features: Title screen, New Game, first horse creation, seven actions including Rest, horse traits, week progression, LocalStorage save, autosave, Continue, validation, Delete Save Data, three races, race selection, race calculation, race animation, prize money, race results, Race History, Stable Records, and First Victory celebration
 - Not Yet Implemented: Multiple races, multiple tracks, weather, horse aging, breeding, PWA support, cloud saving, and multiple horses
 - Save System Status: Working local save system with validation and invalid-save handling
 - Current Save Key: stableStorySaveV1
@@ -22,6 +22,9 @@
 - Repository URL: https://github.com/yuwakobo-ux/stable-story
 - Pages URL: https://yuwakobo-ux.github.io/stable-story/ (pending)
 - Current development line: Ver.0.2
+- Horse Traits implemented.
+- Seven total actions including Rest.
+- Older saves receive `calmTemperament` fallback.
 - Horse Development System implemented.
 - Checkpoint B backup tag established: checkpoint-b-ver0.1
 - Next Planned Task: Task 12 - Training Variety and Horse Traits

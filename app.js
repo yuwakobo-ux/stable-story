@@ -1,6 +1,7 @@
 "use strict";
 
 const SAVE_KEY = "stableStorySaveV1";
+const TRAITS = { quickLearner: "Quick Learner", enduranceMinded: "Endurance Minded", strongBuild: "Strong Build", calmTemperament: "Calm Temperament", fastRecovery: "Fast Recovery" };
 const app = document.getElementById("app");
 let currentGame = null;
 let actionLocked = false;
@@ -10,6 +11,8 @@ function randomValue(min, max) { return Math.floor(Math.random() * (max - min + 
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 function conditionLabel(value) { return value >= 85 ? "Excellent" : value >= 70 ? "Good" : value >= 50 ? "Normal" : value >= 30 ? "Poor" : "Bad"; }
 function fatigueLabel(value) { return value <= 29 ? "Fresh" : value <= 59 ? "Tired" : value <= 89 ? "Very Tired" : "Exhausted"; }
+function validTrait(value) { return Object.prototype.hasOwnProperty.call(TRAITS, value); }
+function traitDescription(value) { return value === "quickLearner" ? "Sometimes gains extra Speed from speed-focused training." : value === "enduranceMinded" ? "Sometimes gains extra Stamina from stamina-focused training." : value === "strongBuild" ? "Sometimes gains extra Power from power-focused training." : value === "calmTemperament" ? "Loses 1 less Condition during training." : "Recovers 5 additional Fatigue when resting."; }
 function developmentExperience(game) { return game.trainingCount + game.races * 2; }
 function developmentStage(experience) { return experience >= 45 ? "Veteran" : experience >= 25 ? "Seasoned" : experience >= 12 ? "Developing" : experience >= 5 ? "Learning" : "Newcomer"; }
 function developmentNext(experience) { if (experience >= 45) return { label: "Maximum", value: 45, progress: 100 }; if (experience >= 25) return { label: "Veteran at 45", value: 45, progress: ((experience - 25) / 20) * 100 }; if (experience >= 12) return { label: "Seasoned at 25", value: 25, progress: ((experience - 12) / 13) * 100 }; if (experience >= 5) return { label: "Developing at 12", value: 12, progress: ((experience - 5) / 7) * 100 }; return { label: "Learning at 5", value: 5, progress: (experience / 5) * 100 }; }
@@ -23,6 +26,7 @@ function readSave() {
     const data = JSON.parse(raw);
     if (!validSave(data)) return { state: null, invalid: true };
     applyRecordDefaults(data);
+    if (!validTrait(data.horseTrait)) data.horseTrait = "calmTemperament";
     return { state: data, invalid: false };
   } catch (error) { return { state: null, invalid: true }; }
 }
@@ -50,7 +54,7 @@ function applyRecordDefaults(data) {
 
 function saveGame(showStatus) {
   if (!currentGame) return;
-  window.localStorage.setItem(SAVE_KEY, JSON.stringify({ saveVersion: 1, stableName: currentGame.stableName, horseName: currentGame.horseName, age: currentGame.age, currentWeek: currentGame.week, trainingCount: currentGame.trainingCount, money: currentGame.money, wins: currentGame.wins, races: currentGame.races, prizeMoney: currentGame.prizeMoney, speed: currentGame.speed, stamina: currentGame.stamina, power: currentGame.power, spirit: currentGame.spirit, condition: currentGame.condition, fatigue: currentGame.fatigue, latestMessage: currentGame.latestMessage, raceHistory: currentGame.raceHistory || [], bestFinish: currentGame.bestFinish ?? null, totalFinishPositions: currentGame.totalFinishPositions || 0, firstVictoryCelebrated: currentGame.firstVictoryCelebrated || false }));
+  window.localStorage.setItem(SAVE_KEY, JSON.stringify({ saveVersion: 1, stableName: currentGame.stableName, horseName: currentGame.horseName, horseTrait: validTrait(currentGame.horseTrait) ? currentGame.horseTrait : "calmTemperament", age: currentGame.age, currentWeek: currentGame.week, trainingCount: currentGame.trainingCount, money: currentGame.money, wins: currentGame.wins, races: currentGame.races, prizeMoney: currentGame.prizeMoney, speed: currentGame.speed, stamina: currentGame.stamina, power: currentGame.power, spirit: currentGame.spirit, condition: currentGame.condition, fatigue: currentGame.fatigue, latestMessage: currentGame.latestMessage, raceHistory: currentGame.raceHistory || [], bestFinish: currentGame.bestFinish ?? null, totalFinishPositions: currentGame.totalFinishPositions || 0, firstVictoryCelebrated: currentGame.firstVictoryCelebrated || false }));
   if (showStatus) currentGame.saveStatus = showStatus;
 }
 
@@ -79,7 +83,8 @@ function showSetup() {
 function createHorse(event) {
   event.preventDefault();
   const form = new FormData(event.target);
-  currentGame = { stableName: String(form.get("stableName")).trim() || "Green Field Stable", horseName: String(form.get("horseName")).trim() || "First Star", age: 2, week: 1, trainingCount: 0, money: 100000, wins: 0, races: 0, prizeMoney: 0, speed: randomValue(35, 50), stamina: randomValue(35, 50), power: randomValue(30, 45), spirit: randomValue(30, 45), condition: randomValue(65, 85), fatigue: 0, latestMessage: "Your horse is ready.", raceHistory: [], bestFinish: null, totalFinishPositions: 0, firstVictoryCelebrated: false, saveStatus: "" };
+  const traitKeys = Object.keys(TRAITS);
+  currentGame = { stableName: String(form.get("stableName")).trim() || "Green Field Stable", horseName: String(form.get("horseName")).trim() || "First Star", horseTrait: traitKeys[randomValue(0, traitKeys.length - 1)], age: 2, week: 1, trainingCount: 0, money: 100000, wins: 0, races: 0, prizeMoney: 0, speed: randomValue(35, 50), stamina: randomValue(35, 50), power: randomValue(30, 45), spirit: randomValue(30, 45), condition: randomValue(65, 85), fatigue: 0, latestMessage: "Your horse is ready.", raceHistory: [], bestFinish: null, totalFinishPositions: 0, firstVictoryCelebrated: false, saveStatus: "" };
   saveGame("Autosaved.");
   showStable(currentGame.latestMessage);
   showIntro();
@@ -116,6 +121,22 @@ function setupStableTabs() {
   trainingDevelopment.className = "training-development";
   trainingDevelopment.textContent = `Development: ${developmentStage(experience)} | ${experience} experience`;
   app.insertBefore(trainingDevelopment, app.querySelector(".stable-summary"));
+  const traitLine = document.createElement("p");
+  traitLine.className = "training-development";
+  traitLine.textContent = `Trait: ${TRAITS[currentGame.horseTrait] || TRAITS.calmTemperament}`;
+  app.insertBefore(traitLine, app.querySelector(".stable-summary"));
+  const trainingHeading = Array.from(app.querySelectorAll("h2")).find(function (heading) { return heading.textContent === "Training"; });
+  if (trainingHeading) {
+    const light = document.createElement("div");
+    light.className = "light-training-actions";
+    light.innerHTML = "<h3>Light Training</h3><button data-action=\"sprint\" class=\"primary-button\" type=\"button\">Sprint Drill</button><button data-action=\"gallop\" class=\"primary-button\" type=\"button\">Long Gallop</button><button data-action=\"hill\" class=\"primary-button\" type=\"button\">Hill Work</button>";
+    if (currentGame.fatigue >= 90) light.querySelectorAll("button").forEach(function (button) { button.disabled = true; });
+    trainingHeading.parentNode.insertBefore(light, trainingHeading.nextElementSibling);
+  }
+  const horsePanel = document.createElement("div");
+  horsePanel.className = "development-box";
+  horsePanel.innerHTML = `<strong>Trait: ${TRAITS[currentGame.horseTrait] || TRAITS.calmTemperament}</strong><span>${traitDescription(currentGame.horseTrait)}</span>`;
+  app.insertBefore(horsePanel, app.querySelector(".stable-summary"));
   const headings = Array.from(app.querySelectorAll("h2"));
   const sections = { records: [headings[0], headings[2]], horse: [headings[1]], training: [headings[3], headings[4]] };
   function setPanel(panel) {
@@ -128,6 +149,7 @@ function setupStableTabs() {
     });
     nav.querySelectorAll("button").forEach(function (button) { button.classList.toggle("active-tab", button.dataset.panel === panel); });
     developmentBox.style.display = panel === "horse" ? "grid" : "none";
+    horsePanel.style.display = panel === "horse" ? "grid" : "none";
     trainingDevelopment.style.display = panel === "training" ? "block" : "none";
   }
   nav.querySelectorAll("button").forEach(function (button) { button.addEventListener("click", function () { setPanel(button.dataset.panel); }); });
@@ -233,11 +255,17 @@ function performAction(action) {
   const g = currentGame;
   const previousStage = developmentStage(developmentExperience(g));
   let message;
-  if (action === "speed") { const increase = randomValue(1, 3); g.speed += increase; g.fatigue += randomValue(8, 12); g.condition -= randomValue(0, 3); g.trainingCount += 1; message = `Speed training completed. Speed increased by ${increase}.`; }
-  if (action === "stamina") { const increase = randomValue(1, 3); g.stamina += increase; g.fatigue += randomValue(7, 11); g.condition -= randomValue(0, 2); g.trainingCount += 1; message = `Stamina training completed. Stamina increased by ${increase}.`; }
-  if (action === "power") { const increase = randomValue(1, 3); g.power += increase; g.fatigue += randomValue(10, 14); g.condition -= randomValue(1, 4); g.trainingCount += 1; message = `Power training completed. Power increased by ${increase}.`; }
-  if (action === "rest") { g.fatigue -= randomValue(18, 28); g.condition += randomValue(8, 15); message = "Your horse rested and recovered."; }
-  g.speed = clamp(g.speed, 1, 100); g.stamina = clamp(g.stamina, 1, 100); g.power = clamp(g.power, 1, 100); g.spirit = clamp(g.spirit, 1, 100); g.condition = clamp(g.condition, 1, 100); g.fatigue = clamp(g.fatigue, 0, 100); g.week += 1; g.latestMessage = `${message} Week ${g.week} begins. Fatigue: ${g.fatigue}.`; const newStage = developmentStage(developmentExperience(g)); if (newStage !== previousStage) g.latestMessage += ` ${g.horseName} reached the ${newStage} stage.`; saveGame("Autosaved."); showStable(g.latestMessage); window.setTimeout(function () { actionLocked = false; }, 250);
+  let traitMessage = "";
+  let conditionLoss = 0;
+  if (action === "speed") { const increase = randomValue(1, 3); g.speed += increase; g.fatigue += randomValue(8, 12); conditionLoss = randomValue(0, 3); message = `Speed training completed. Speed +${increase}.`; }
+  if (action === "stamina") { const increase = randomValue(1, 3); g.stamina += increase; g.fatigue += randomValue(7, 11); conditionLoss = randomValue(0, 2); message = `Stamina training completed. Stamina +${increase}.`; }
+  if (action === "power") { const increase = randomValue(1, 3); g.power += increase; g.fatigue += randomValue(10, 14); conditionLoss = randomValue(1, 4); message = `Power training completed. Power +${increase}.`; }
+  if (action === "sprint") { const speed = randomValue(1, 2); const power = randomValue(0, 1); g.speed += speed; g.power += power; g.fatigue += randomValue(6, 9); conditionLoss = randomValue(0, 2); message = `Sprint Drill completed. Speed +${speed}${power ? `, Power +${power}` : ""}.`; }
+  if (action === "gallop") { const stamina = randomValue(1, 2); const spirit = randomValue(0, 1); g.stamina += stamina; g.spirit += spirit; g.fatigue += randomValue(6, 9); conditionLoss = randomValue(0, 2); message = `Long Gallop completed. Stamina +${stamina}${spirit ? `, Spirit +${spirit}` : ""}.`; }
+  if (action === "hill") { const power = randomValue(1, 2); const stamina = randomValue(0, 1); g.power += power; g.stamina += stamina; g.fatigue += randomValue(8, 11); conditionLoss = randomValue(1, 3); message = `Hill Work completed. Power +${power}${stamina ? `, Stamina +${stamina}` : ""}.`; }
+  if (action === "rest") { g.fatigue -= randomValue(18, 28); g.condition += randomValue(8, 15); if (g.horseTrait === "fastRecovery") { g.fatigue -= 5; traitMessage = " Fast Recovery improved recovery by 5."; } message = "Your horse rested and recovered."; }
+  if (action !== "rest") { if (g.horseTrait === "calmTemperament" && conditionLoss >= 1) { conditionLoss -= 1; traitMessage = " Calm Temperament reduced Condition loss."; } g.condition -= conditionLoss; const bonusTrait = (g.horseTrait === "quickLearner" && (action === "speed" || action === "sprint")) || (g.horseTrait === "enduranceMinded" && (action === "stamina" || action === "gallop")) || (g.horseTrait === "strongBuild" && (action === "power" || action === "hill")); if (bonusTrait && Math.random() < 0.35) { if (g.horseTrait === "quickLearner") g.speed += 1; if (g.horseTrait === "enduranceMinded") g.stamina += 1; if (g.horseTrait === "strongBuild") g.power += 1; traitMessage += ` ${TRAITS[g.horseTrait]} added 1 extra ${g.horseTrait === "quickLearner" ? "Speed" : g.horseTrait === "enduranceMinded" ? "Stamina" : "Power"}.`; } g.trainingCount += 1; }
+  g.speed = clamp(g.speed, 1, 100); g.stamina = clamp(g.stamina, 1, 100); g.power = clamp(g.power, 1, 100); g.spirit = clamp(g.spirit, 1, 100); g.condition = clamp(g.condition, 1, 100); g.fatigue = clamp(g.fatigue, 0, 100); g.week += 1; g.latestMessage = `${message}${traitMessage} Week ${g.week} begins. Fatigue: ${g.fatigue}.`; const newStage = developmentStage(developmentExperience(g)); if (newStage !== previousStage) g.latestMessage += ` ${g.horseName} reached the ${newStage} stage.`; saveGame("Autosaved."); showStable(g.latestMessage); window.setTimeout(function () { actionLocked = false; }, 250);
 }
 
 function escapeHtml(value) { return value.replace(/[&<>'"]/g, function (character) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]; }); }

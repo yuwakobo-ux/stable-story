@@ -1,3 +1,3 @@
 # Next Task
 
-Task 12 - Training Variety and Horse Traits
+Task 13 - Horse Condition Events and Training Decisions

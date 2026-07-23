@@ -4,7 +4,7 @@ Stable Story is an original smartphone-first horse-racing and racehorse-training
 
 ## Current status
 
-Task 11 - Ver.0.2 Foundation and Horse Development System
+Task 12 - Training Variety and Horse Traits
 
 ## Files included
 
@@ -26,7 +26,7 @@ Open `index.html` in a browser. No server or installation is required for this t
 
 ## Current limitations
 
-Ver.0.2 development begins with Development Experience calculated as `trainingCount + (races * 2)`. Five stages, a progress bar, and stage-up messages are displayed without changing abilities or balance. Development is experience, not horse aging. Save key `stableStorySaveV1` and saveVersion `1` remain compatible.
+Ver.0.2 now includes five available horse traits, one permanent trait per horse, Sprint Drill, Long Gallop, Hill Work, and trait-based training effects. Older saves receive the deterministic `calmTemperament` fallback. Trait effects apply only to training. Save key `stableStorySaveV1` and saveVersion `1` remain unchanged.
 
 ## GitHub backup and play URL
 

@@ -37,6 +37,9 @@
 - Task 11 completed.
 - Added: Ver.0.2 development foundation, Development Experience, five Development Stages, development progress display, stage-up messages, and the Checkpoint B Git tag.
 - Not added: Horse aging, retirement, breeding, bloodlines, multiple horses, or ability bonuses from stages.
+- Task 12 completed.
+- Added: Five Horse Traits, one permanent trait per horse, Sprint Drill, Long Gallop, Hill Work, trait-based training effects, and the older-save fallback trait.
+- Not added: Multiple traits, trait selection, race bonuses, aging, breeding, bloodlines, or multiple horses.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.

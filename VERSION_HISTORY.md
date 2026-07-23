@@ -38,3 +38,10 @@
   - Progress Display
   - Stage-Up Messages
   - Checkpoint B Git Tag
+- Task 12
+  - Horse Traits
+  - Sprint Drill
+  - Long Gallop
+  - Hill Work
+  - Trait-Based Training Effects
+  - Backward-Compatible Trait Fallback
