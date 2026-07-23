@@ -72,4 +72,11 @@ button:disabled { cursor: not-allowed; opacity: 0.72; }
 .history-card { display: grid; gap: 3px; padding: 11px 13px; border-radius: 10px; background: rgba(255, 255, 255, 0.09); color: #d5e0d3; font-size: 14px; }
 .history-card strong { color: #e1b96c; }
 .empty-note { color: #b8d0b8; font-size: 14px; margin: 0; }
+.race-options { display: grid; gap: 12px; margin: 16px 0; text-align: left; }
+.race-option { padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.09); }
+.race-option h2 { margin: 0 0 6px; font-size: 18px; }
+.race-option p { margin: 5px 0; color: #d5e0d3; font-size: 14px; }
+.race-option button { margin-top: 8px; }
+.race-ready { color: #e1b96c !important; }
+.race-blocked { color: #e7a59b !important; }
 footer { position: absolute; bottom: max(18px, env(safe-area-inset-bottom)); color: #87a394; font-size: 13px; letter-spacing: 0.12em; }

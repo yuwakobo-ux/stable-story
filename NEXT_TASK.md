@@ -1,3 +1,3 @@
 # Next Task
 
-Task 08 - Additional Race and Simple Race Selection
+Task 09 - Compact Smartphone Interface

@@ -4,6 +4,7 @@ const SAVE_KEY = "stableStorySaveV1";
 const app = document.getElementById("app");
 let currentGame = null;
 let actionLocked = false;
+let selectedRace = null;
 
 function randomValue(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -95,25 +96,42 @@ function showStable(resultMessage) {
   app.innerHTML = `<p class="eyebrow">YOUR STABLE</p><h1 id="game-title">Stable Story</h1><div class="stable-summary"><p><span>Stable</span><strong>${escapeHtml(g.stableName)}</strong></p><p><span>Horse</span><strong>${escapeHtml(g.horseName)}</strong></p><p><span>Age</span><strong>${g.age} years old</strong></p><p><span>Current Week</span><strong>${g.week}</strong></p><p><span>Money</span><strong>${g.money}</strong></p><p><span>Record</span><strong>${g.wins} Wins / ${g.races} Races</strong></p><p><span>Total Prize Money</span><strong>${g.prizeMoney}</strong></p></div><h2>Stable Records</h2><div class="abilities"><p><span>Races</span><strong>${g.races}</strong></p><p><span>Wins</span><strong>${g.wins}</strong></p><p><span>Win Rate</span><strong>${winRate}</strong></p><p><span>Total Prize Money</span><strong>${g.prizeMoney}</strong></p><p><span>Best Finish</span><strong>${g.bestFinish === null ? "-" : ordinal(g.bestFinish)}</strong></p><p><span>Average Finish</span><strong>${averageFinish}</strong></p></div><h2>Horse Abilities</h2><div class="abilities"><p><span>Speed</span><strong>${g.speed}</strong></p><p><span>Stamina</span><strong>${g.stamina}</strong></p><p><span>Power</span><strong>${g.power}</strong></p><p><span>Spirit</span><strong>${g.spirit}</strong></p><p><span>Condition</span><strong>${g.condition}</strong></p><p><span>Fatigue</span><strong>${g.fatigue}</strong></p></div><h2>Recent Races</h2><div class="race-history">${historyHtml}</div><h2>Training</h2><div class="title-actions training-actions"><button data-action="speed" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Speed Training</button><button data-action="stamina" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Stamina Training</button><button data-action="power" class="primary-button" type="button" ${trainingLocked ? "disabled" : ""}>Power Training</button><button data-action="rest" class="secondary-button" type="button">Rest</button></div><p class="message">${escapeHtml(resultMessage || g.latestMessage)}${g.saveStatus ? ` <small>${escapeHtml(g.saveStatus)}</small>` : ""}${trainingLocked ? " Your horse is too tired to train. Let the horse rest." : ""}</p><h2>Race</h2><p class="race-info">Greenfield Beginner Cup | Turf 1600m | Entry 5000</p><button id="race-button" class="primary-button" type="button" ${raceState.ready ? "" : "disabled"}>${raceState.label}</button><p class="message race-status">${escapeHtml(raceState.message)}</p><div class="title-actions"><button id="manual-save" class="secondary-button" type="button">Save</button><button id="stable-back" class="primary-button" type="button">Back to Title</button></div>`;
   document.querySelectorAll("[data-action]").forEach(function (button) { button.addEventListener("click", function () { performAction(button.dataset.action); }); });
   document.getElementById("manual-save").addEventListener("click", function () { saveGame("Game saved."); showStable(g.latestMessage); });
-  document.getElementById("race-button").addEventListener("click", startRace);
+  document.getElementById("race-button").addEventListener("click", showRaceSelection);
   document.getElementById("stable-back").addEventListener("click", function () { if (window.confirm("Return to the title screen? Current progress has been saved.")) { saveGame(""); currentGame = null; showTitle(); } });
 }
 
+function raceAvailability(race, game) {
+  if (game.week < race.week) return { ready: false, reason: `Week ${race.week}から出走可能` };
+  if (game.fatigue >= 90) return { ready: false, reason: "疲労が高すぎます" };
+  if (game.money < race.fee) return { ready: false, reason: "出走料が不足しています" };
+  return { ready: true, reason: "出走可能" };
+}
+
+function showRaceSelection() {
+  app.innerHTML = `<p class="eyebrow">RACE SELECT</p><h1 id="game-title">Choose a Race</h1><div class="race-options">${races.map(function (race, index) { const state = raceAvailability(race, currentGame); return `<div class="race-option"><h2>${race.name}</h2><p>${race.surface} | ${race.distance}m | Week ${race.week}+ | Entry ${race.fee}</p><p>1st Prize: ${race.prizes[0]}</p><p class="${state.ready ? "race-ready" : "race-blocked"}">${state.reason}</p><button data-race-index="${index}" class="${state.ready ? "primary-button" : "secondary-button"}" type="button" ${state.ready ? "" : "disabled"}>Enter</button></div>`; }).join("")}</div><button id="race-selection-back" class="secondary-button" type="button">Back to Stable</button>`;
+  document.querySelectorAll("[data-race-index]").forEach(function (button) { button.addEventListener("click", function () { selectedRace = races[Number(button.dataset.raceIndex)]; startRace(); }); });
+  document.getElementById("race-selection-back").addEventListener("click", function () { showStable(currentGame.latestMessage); });
+}
+
+const races = [
+  { name: "Greenfield Beginner Cup", surface: "Turf", distance: 1600, week: 4, fee: 5000, prizes: [30000, 15000, 8000, 4000, 2000, 0, 0, 0], staminaWeight: 1, powerWeight: 1, spiritWeight: 1, fatigueWeight: 2 },
+  { name: "Riverside Sprint", surface: "Turf", distance: 1200, week: 6, fee: 7000, prizes: [42000, 21000, 11000, 5500, 2500, 0, 0, 0], staminaWeight: 0.7, powerWeight: 1.3, spiritWeight: 1, fatigueWeight: 2 },
+  { name: "Highland Challenge", surface: "Turf", distance: 2200, week: 8, fee: 9000, prizes: [60000, 30000, 16000, 8000, 4000, 0, 0, 0], staminaWeight: 1.3, powerWeight: 1, spiritWeight: 1.2, fatigueWeight: 2.5 }
+];
 const opponentNames = ["Amber Comet", "Blue Meadow", "Cedar Flash", "Dawn Runner", "Golden Brook", "Misty Clover", "Silver Fern"];
-const prizeTable = [30000, 15000, 8000, 4000, 2000, 0, 0, 0];
 
 function startRace() {
-  if (currentGame.week < 4 || currentGame.fatigue >= 90 || currentGame.money < 5000 || actionLocked) return;
+  if (!selectedRace || !raceAvailability(selectedRace, currentGame).ready || actionLocked) return;
   actionLocked = true;
-  const horses = [{ name: currentGame.horseName, player: true, score: raceScore(currentGame) }];
+  const horses = [{ name: currentGame.horseName, player: true, score: raceScore(currentGame, selectedRace) }];
   opponentNames.forEach(function (name) { horses.push({ name: name, player: false, score: randomValue(180, 330) }); });
   horses.sort(function (a, b) { return b.score - a.score; });
   showRace(horses);
   window.setTimeout(function () { finishRace(horses); }, 1700);
 }
 
-function raceScore(horse) {
-  return horse.speed * 2 + horse.stamina + horse.power + horse.spirit + horse.condition - horse.fatigue * 2 + randomValue(-25, 25);
+function raceScore(horse, race) {
+  return horse.speed * 2 + horse.stamina * race.staminaWeight + horse.power * race.powerWeight + horse.spirit * race.spiritWeight + horse.condition - horse.fatigue * race.fatigueWeight + randomValue(-25, 25);
 }
 
 function showRace(horses) {
@@ -123,21 +141,22 @@ function showRace(horses) {
 function finishRace(horses) {
   const g = currentGame;
   const position = horses.findIndex(function (horse) { return horse.player; }) + 1;
-  const prize = prizeTable[position - 1];
-  g.money -= 5000;
+  const race = selectedRace;
+  const prize = race.prizes[position - 1];
+  g.money -= race.fee;
   g.money += prize;
   g.races += 1;
   if (position === 1) g.wins += 1;
   g.prizeMoney += prize;
   if (g.bestFinish === null || position < g.bestFinish) g.bestFinish = position;
   g.totalFinishPositions += position;
-  g.raceHistory.push({ week: g.week, raceName: "Greenfield Beginner Cup", finishPosition: position, prize: prize, entryFee: 5000, fieldSize: 8 });
+  g.raceHistory.push({ week: g.week, raceName: race.name, finishPosition: position, prize: prize, entryFee: race.fee, fieldSize: 8 });
   g.raceHistory = g.raceHistory.slice(-20);
   g.fatigue = clamp(g.fatigue + randomValue(10, 20), 0, 100);
   g.week += 1;
   const firstVictory = position === 1 && !g.firstVictoryCelebrated;
   if (firstVictory) g.firstVictoryCelebrated = true;
-  g.latestMessage = firstVictory ? `Congratulations! First Victory! ${g.horseName} won at Greenfield Beginner Cup and earned ${prize}.` : `You finished ${ordinal(position)} and earned ${prize}.`;
+  g.latestMessage = firstVictory ? `Congratulations! First Victory! ${g.horseName} won at ${race.name} and earned ${prize}.` : `You finished ${ordinal(position)} and earned ${prize}.`;
   saveGame("Autosaved.");
   actionLocked = false;
   app.innerHTML = `<p class="eyebrow">RACE RESULTS</p><h1 id="game-title">Greenfield Beginner Cup</h1><p class="message">${escapeHtml(g.latestMessage)} Week ${g.week} begins. Money: ${g.money}</p><ol class="results">${horses.map(function (horse, index) { return `<li class="${horse.player ? "player-result" : ""}"><span>${ordinal(index + 1)}</span><strong>${escapeHtml(horse.name)}</strong>${horse.player ? " <small>(You)</small>" : ""}</li>`; }).join("")}</ol><button id="results-back" class="primary-button" type="button">Return to Stable</button>`;

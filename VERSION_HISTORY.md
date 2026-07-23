@@ -22,3 +22,6 @@
   - Next Race Information
   - First Playtest Improvements
   - Small Smartphone Spacing Cleanup
+- Task 08
+  - Additional Races
+  - Simple Race Selection
