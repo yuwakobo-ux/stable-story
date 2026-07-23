@@ -31,3 +31,10 @@
 - Task 10
   - Ver.0.1 Playable Build
   - Checkpoint B
+- Task 11
+  - Ver.0.2 Foundation
+  - Development Experience
+  - Development Stages
+  - Progress Display
+  - Stage-Up Messages
+  - Checkpoint B Git Tag

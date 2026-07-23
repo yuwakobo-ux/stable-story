@@ -1,7 +1,7 @@
 # Stable Story
 
-- Current task: Task 10 - Ver.0.1 Playable Build and Checkpoint B
-- Current version: Ver.0.1 Playable Build
+- Current task: Task 11 - Ver.0.2 Foundation and Horse Development System
+- Current version: Ver.0.2 Development Build
 - Purpose: An original smartphone horse-racing training game.
 - Long-term goal: Build toward Derby Stallion-class depth around Ver.10.
 - Official workspace: The current writable workspace.

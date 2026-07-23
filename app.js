@@ -10,6 +10,9 @@ function randomValue(min, max) { return Math.floor(Math.random() * (max - min + 
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 function conditionLabel(value) { return value >= 85 ? "Excellent" : value >= 70 ? "Good" : value >= 50 ? "Normal" : value >= 30 ? "Poor" : "Bad"; }
 function fatigueLabel(value) { return value <= 29 ? "Fresh" : value <= 59 ? "Tired" : value <= 89 ? "Very Tired" : "Exhausted"; }
+function developmentExperience(game) { return game.trainingCount + game.races * 2; }
+function developmentStage(experience) { return experience >= 45 ? "Veteran" : experience >= 25 ? "Seasoned" : experience >= 12 ? "Developing" : experience >= 5 ? "Learning" : "Newcomer"; }
+function developmentNext(experience) { if (experience >= 45) return { label: "Maximum", value: 45, progress: 100 }; if (experience >= 25) return { label: "Veteran at 45", value: 45, progress: ((experience - 25) / 20) * 100 }; if (experience >= 12) return { label: "Seasoned at 25", value: 25, progress: ((experience - 12) / 13) * 100 }; if (experience >= 5) return { label: "Developing at 12", value: 12, progress: ((experience - 5) / 7) * 100 }; return { label: "Learning at 5", value: 5, progress: (experience / 5) * 100 }; }
 function raceRecommendation(game, race) { const score = game.speed + game.stamina * race.staminaWeight + game.power * race.powerWeight + game.spirit * race.spiritWeight + game.condition - game.fatigue * race.fatigueWeight; return score >= 300 ? "Strong Chance" : score >= 220 ? "Competitive" : "Difficult"; }
 function numberIsSafe(value) { return typeof value === "number" && Number.isFinite(value) && Number.isSafeInteger(value); }
 
@@ -56,6 +59,7 @@ function showTitle(statusMessage) {
   const hasSave = Boolean(save.state);
   const status = statusMessage || (save.invalid ? "Save data could not be loaded. Start a new game." : "");
   app.innerHTML = `<div class="horse-mark" aria-hidden="true">&#9822;</div><p class="eyebrow">A NEW RACING STORY</p><h1 id="game-title">Stable Story</h1><p class="version">Ver.0.1 Development Build</p><p class="subtitle">Begin with one horse. Build a lasting legacy.</p><div class="title-actions"><button id="new-game-button" class="primary-button" type="button">New Game</button><button id="continue-button" class="secondary-button" type="button" ${hasSave ? "" : "disabled"}>${hasSave ? "Continue" : "Continue - No Save Data"}</button>${hasSave ? '<button id="delete-save-button" class="quiet-button" type="button">Delete Save Data</button>' : ""}</div><p id="message" class="message" role="status" aria-live="polite">${escapeHtml(status)}</p>`;
+  document.querySelector(".version").textContent = "Ver.0.2 Development Build";
   document.getElementById("new-game-button").addEventListener("click", function () { if (hasSave && !window.confirm("Start a new game? Existing saved progress will be replaced when the new game is saved.")) { showTitle(); return; } showSetup(); });
   if (hasSave) { document.getElementById("continue-button").addEventListener("click", function () { currentGame = save.state; currentGame.saveStatus = ""; showStable(currentGame.latestMessage); }); document.getElementById("delete-save-button").addEventListener("click", deleteSave); }
 }
@@ -102,6 +106,16 @@ function setupStableTabs() {
   nav.className = "stable-tabs";
   nav.innerHTML = "<button data-panel=\"training\" type=\"button\">Training</button><button data-panel=\"records\" type=\"button\">Records</button><button data-panel=\"horse\" type=\"button\">Horse</button>";
   app.insertBefore(nav, app.querySelector(".stable-summary"));
+  const experience = developmentExperience(currentGame);
+  const next = developmentNext(experience);
+  const developmentBox = document.createElement("div");
+  developmentBox.className = "development-box";
+  developmentBox.innerHTML = `<strong>Development Stage: ${developmentStage(experience)}</strong><span>Development Experience: ${experience}</span><span>Next Stage: ${next.label}</span><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, Math.max(0, next.progress))}%"></div></div><small>Progress: ${experience} / ${next.value}</small>`;
+  app.insertBefore(developmentBox, app.querySelector(".stable-summary"));
+  const trainingDevelopment = document.createElement("p");
+  trainingDevelopment.className = "training-development";
+  trainingDevelopment.textContent = `Development: ${developmentStage(experience)} | ${experience} experience`;
+  app.insertBefore(trainingDevelopment, app.querySelector(".stable-summary"));
   const headings = Array.from(app.querySelectorAll("h2"));
   const sections = { records: [headings[0], headings[2]], horse: [headings[1]], training: [headings[3], headings[4]] };
   function setPanel(panel) {
@@ -113,6 +127,8 @@ function setupStableTabs() {
       while (node && node.tagName !== "H2") { node.style.display = show ? "" : "none"; node = node.nextElementSibling; }
     });
     nav.querySelectorAll("button").forEach(function (button) { button.classList.toggle("active-tab", button.dataset.panel === panel); });
+    developmentBox.style.display = panel === "horse" ? "grid" : "none";
+    trainingDevelopment.style.display = panel === "training" ? "block" : "none";
   }
   nav.querySelectorAll("button").forEach(function (button) { button.addEventListener("click", function () { setPanel(button.dataset.panel); }); });
   setPanel("training");
@@ -177,6 +193,7 @@ function showRace(horses) {
 
 function finishRace(horses) {
   const g = currentGame;
+  const previousStage = developmentStage(developmentExperience(g));
   const position = horses.findIndex(function (horse) { return horse.player; }) + 1;
   const race = selectedRace;
   const prize = race.prizes[position - 1];
@@ -194,6 +211,8 @@ function finishRace(horses) {
   const firstVictory = position === 1 && !g.firstVictoryCelebrated;
   if (firstVictory) g.firstVictoryCelebrated = true;
   g.latestMessage = firstVictory ? `Congratulations! First Victory! ${g.horseName} won at ${race.name} and earned ${prize}.` : `You finished ${ordinal(position)} and earned ${prize}.`;
+  const newStage = developmentStage(developmentExperience(g));
+  if (newStage !== previousStage) g.latestMessage += ` ${g.horseName} reached the ${newStage} stage.`;
   saveGame("Autosaved.");
   actionLocked = false;
   app.innerHTML = `<p class="eyebrow">RACE RESULTS</p><h1 id="game-title">Greenfield Beginner Cup</h1><p class="message">${escapeHtml(g.latestMessage)} Week ${g.week} begins. Money: ${g.money}</p><ol class="results">${horses.map(function (horse, index) { return `<li class="${horse.player ? "player-result" : ""}"><span>${ordinal(index + 1)}</span><strong>${escapeHtml(horse.name)}</strong>${horse.player ? " <small>(You)</small>" : ""}</li>`; }).join("")}</ol><button id="results-back" class="primary-button" type="button">Return to Stable</button>`;
@@ -212,12 +231,13 @@ function performAction(action) {
   if (action !== "rest" && currentGame.fatigue >= 90) { showStable("Your horse is too tired to train. Let the horse rest."); return; }
   actionLocked = true;
   const g = currentGame;
+  const previousStage = developmentStage(developmentExperience(g));
   let message;
   if (action === "speed") { const increase = randomValue(1, 3); g.speed += increase; g.fatigue += randomValue(8, 12); g.condition -= randomValue(0, 3); g.trainingCount += 1; message = `Speed training completed. Speed increased by ${increase}.`; }
   if (action === "stamina") { const increase = randomValue(1, 3); g.stamina += increase; g.fatigue += randomValue(7, 11); g.condition -= randomValue(0, 2); g.trainingCount += 1; message = `Stamina training completed. Stamina increased by ${increase}.`; }
   if (action === "power") { const increase = randomValue(1, 3); g.power += increase; g.fatigue += randomValue(10, 14); g.condition -= randomValue(1, 4); g.trainingCount += 1; message = `Power training completed. Power increased by ${increase}.`; }
   if (action === "rest") { g.fatigue -= randomValue(18, 28); g.condition += randomValue(8, 15); message = "Your horse rested and recovered."; }
-  g.speed = clamp(g.speed, 1, 100); g.stamina = clamp(g.stamina, 1, 100); g.power = clamp(g.power, 1, 100); g.spirit = clamp(g.spirit, 1, 100); g.condition = clamp(g.condition, 1, 100); g.fatigue = clamp(g.fatigue, 0, 100); g.week += 1; g.latestMessage = `${message} Week ${g.week} begins. Fatigue: ${g.fatigue}.`; saveGame("Autosaved."); showStable(g.latestMessage); window.setTimeout(function () { actionLocked = false; }, 250);
+  g.speed = clamp(g.speed, 1, 100); g.stamina = clamp(g.stamina, 1, 100); g.power = clamp(g.power, 1, 100); g.spirit = clamp(g.spirit, 1, 100); g.condition = clamp(g.condition, 1, 100); g.fatigue = clamp(g.fatigue, 0, 100); g.week += 1; g.latestMessage = `${message} Week ${g.week} begins. Fatigue: ${g.fatigue}.`; const newStage = developmentStage(developmentExperience(g)); if (newStage !== previousStage) g.latestMessage += ` ${g.horseName} reached the ${newStage} stage.`; saveGame("Autosaved."); showStable(g.latestMessage); window.setTimeout(function () { actionLocked = false; }, 250);
 }
 
 function escapeHtml(value) { return value.replace(/[&<>'"]/g, function (character) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]; }); }

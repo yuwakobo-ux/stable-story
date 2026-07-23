@@ -60,6 +60,11 @@ button:disabled { cursor: not-allowed; opacity: 0.72; }
 .message { min-height: 24px; color: #f5d58d; font-size: 14px; margin: 22px 0 0; }
 .message small { color: #b8d0b8; }
 .training-actions { margin-bottom: 20px; }
+.training-development { color: #e1b96c; font-size: 14px; margin: 8px 0; }
+.development-box { display: grid; gap: 7px; margin: 12px 0; padding: 12px; border-radius: 10px; text-align: left; background: rgba(255, 255, 255, 0.09); color: #d5e0d3; font-size: 14px; }
+.development-box strong { color: #e1b96c; }
+.progress-track { width: 100%; height: 12px; overflow: hidden; border-radius: 8px; background: rgba(255, 255, 255, 0.15); }
+.progress-fill { height: 100%; border-radius: 8px; background: #e1b96c; }
 .race-info { color: #d5e0d3; font-size: 14px; line-height: 1.5; }
 .race-lanes { display: grid; gap: 10px; margin: 20px 0; text-align: left; }
 .race-lane { position: relative; min-height: 36px; overflow: hidden; border-bottom: 2px solid #668476; color: #d5e0d3; font-size: 13px; padding: 5px 0; }

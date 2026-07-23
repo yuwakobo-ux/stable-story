@@ -1,3 +1,3 @@
 # Next Task
 
-Task 11 - Ver.0.2 Planning and Horse Growth System
+Task 12 - Training Variety and Horse Traits

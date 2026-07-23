@@ -4,7 +4,7 @@ Stable Story is an original smartphone-first horse-racing and racehorse-training
 
 ## Current status
 
-Task 10 - Ver.0.1 Playable Build and Checkpoint B
+Task 11 - Ver.0.2 Foundation and Horse Development System
 
 ## Files included
 
@@ -26,7 +26,7 @@ Open `index.html` in a browser. No server or installation is required for this t
 
 ## Current limitations
 
-Ver.0.1 Playable Build includes three races, training, rest, saving, Continue, race history, Stable Records, compact panels, condition/fatigue labels, race recommendations, and first-game guidance.
+Ver.0.2 development begins with Development Experience calculated as `trainingCount + (races * 2)`. Five stages, a progress bar, and stage-up messages are displayed without changing abilities or balance. Development is experience, not horse aging. Save key `stableStorySaveV1` and saveVersion `1` remain compatible.
 
 ## GitHub backup and play URL
 

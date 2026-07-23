@@ -34,6 +34,9 @@
 - Task 10 completed.
 - Added: Condition and Fatigue labels, race recommendations, first-game guidance, and Checkpoint B.
 - Preserved: Existing numerical balance and save compatibility.
+- Task 11 completed.
+- Added: Ver.0.2 development foundation, Development Experience, five Development Stages, development progress display, stage-up messages, and the Checkpoint B Git tag.
+- Not added: Horse aging, retirement, breeding, bloodlines, multiple horses, or ability bonuses from stages.
 - Task 04.5 completed.
 - Added: Current State document, Next Task document, Version History, Backup Guide, and Checkpoint A.
 - No gameplay changes.

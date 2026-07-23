@@ -2,7 +2,7 @@
 
 - Project Name: Stable Story
 - Current Version: Pre-Ver.0.1
-- Current Task: Task 10 - Ver.0.1 Playable Build and Checkpoint B
+- Current Task: Task 11 - Ver.0.2 Foundation and Horse Development System
 - Completed Tasks: Task 01, Task 02, Task 03, Task 04, Task 04.5, Task 05, Task 05.5
 - Working Features: Title screen, New Game, first horse creation, training, week progression, LocalStorage save, autosave, Continue, validation, Delete Save Data, three races, race selection, race calculation, race animation, prize money, race results, Race History, Stable Records, and First Victory celebration
 - Not Yet Implemented: Multiple races, multiple tracks, weather, horse aging, breeding, PWA support, cloud saving, and multiple horses
@@ -21,4 +21,7 @@
 - GitHub Pages Deployment: Pending configuration; the expected URL currently returns 404.
 - Repository URL: https://github.com/yuwakobo-ux/stable-story
 - Pages URL: https://yuwakobo-ux.github.io/stable-story/ (pending)
-- Next Planned Task: Task 11 - Ver.0.2 Planning and Horse Growth System
+- Current development line: Ver.0.2
+- Horse Development System implemented.
+- Checkpoint B backup tag established: checkpoint-b-ver0.1
+- Next Planned Task: Task 12 - Training Variety and Horse Traits
