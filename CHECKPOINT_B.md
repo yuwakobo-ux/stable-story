@@ -8,4 +8,4 @@
 - Next development candidate: Task 11 - Ver.0.2 Planning and Horse Growth System.
 - Recovery information: repository `yuwakobo-ux/stable-story`, main branch, save key `stableStorySaveV1`, saveVersion 1.
 - GitHub Pages: https://yuwakobo-ux.github.io/stable-story/
-- Final commit: c2004f1dff50c0b018c348b69830ef9e49f5dac9.
+- Final commit: 8e3c8a55465bb088d9069ec153bcc06460a823cf.
